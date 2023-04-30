@@ -69,7 +69,16 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
     }),
 );
 
-export default function MiniDrawer({open, setOpen, selectedIndex, setSelectedIndex, modules, newModuleCallback}) {
+interface MiniDrawerProps {
+    open: boolean;
+    setOpen: (open: boolean) => void;
+    selectedIndex: number;
+    setSelectedIndex: (index: number) => void;
+    modules: string[];
+    newModuleCallback: () => void;
+}
+
+export default function MiniDrawer({open, setOpen, selectedIndex, setSelectedIndex, modules, newModuleCallback}: MiniDrawerProps) {
     const theme = useTheme();
 
     return (
@@ -87,9 +96,7 @@ export default function MiniDrawer({open, setOpen, selectedIndex, setSelectedInd
             <List>
                 {['Dashboard', 'Terminal', 'Nugget API'].map((text, index) => (
                     <ListItem key={text} disablePadding sx={{display: 'block'}}>
-                        <ListItemButton selected={index === selectedIndex} onClick={() => {
-                            setSelectedIndex(index)
-                        }}
+                        <ListItemButton selected={index === selectedIndex} onClick={() => setSelectedIndex(index)}
                                         sx={{
                                             minHeight: 48,
                                             justifyContent: open ? 'initial' : 'center',
@@ -116,9 +123,7 @@ export default function MiniDrawer({open, setOpen, selectedIndex, setSelectedInd
             <List>
                 {modules.map((text, index) => (
                     <ListItem key={text} disablePadding sx={{display: 'block'}}>
-                        <ListItemButton selected={index === selectedIndex - 3} onClick={() => {
-                            setSelectedIndex(index + 3)
-                        }}
+                        <ListItemButton selected={index === selectedIndex - 3} onClick={() => setSelectedIndex(index + 3)}
                                         sx={{
                                             minHeight: 48,
                                             justifyContent: open ? 'initial' : 'center',
@@ -140,12 +145,12 @@ export default function MiniDrawer({open, setOpen, selectedIndex, setSelectedInd
                 ))}
 
                 <ListItem key="New" disablePadding sx={{display: 'block'}}>
-                        <ListItemButton onClick={newModuleCallback}
-                                        sx={{
+                        <ListItemButton sx={{
                                             minHeight: 48,
                                             justifyContent: open ? 'initial' : 'center',
                                             px: 2.5,
                                         }}
+                                        onClick={newModuleCallback}
                         >
                             <ListItemIcon
                                 sx={{

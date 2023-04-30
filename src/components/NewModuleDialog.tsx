@@ -8,10 +8,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-function useFormInput(initialValue) {
+function useFormInput(initialValue: string) {
   const [value, setValue] = useState(initialValue);
 
-  function handleChange(e) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setValue(e.target.value);
   }
 
@@ -21,7 +21,7 @@ function useFormInput(initialValue) {
   };
 }
 
-export default function NewModuleDialog({open, setOpen, onClose}) {
+export default function NewModuleDialog({open, setOpen, submitCallback}: {open: boolean, setOpen: (open: boolean) => void, submitCallback: (id: string) => void}) {
     const idProps = useFormInput("");
 
     return (
@@ -44,7 +44,7 @@ export default function NewModuleDialog({open, setOpen, onClose}) {
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => {setOpen(false)}}>Cancel</Button>
-                <Button onClick={() => {onClose(idProps.value)}}>Create</Button>
+                <Button onClick={() => {submitCallback(idProps.value)}}>Create</Button>
             </DialogActions>
         </Dialog>
     );

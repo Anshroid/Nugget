@@ -1,17 +1,17 @@
 import * as React from 'react';
 
 // @ts-ignore
-import MiniDrawer, {drawerWidth, DrawerHeader} from "./MiniDrawer.tsx";
+import MiniDrawer, {drawerWidth, DrawerHeader} from "@/components/MiniDrawer.tsx";
 // @ts-ignore
-import Dashboard from "./Dashboard.tsx";
+import Dashboard from "@/components/Dashboard.tsx";
 // @ts-ignore
-import Terminal from "./Terminal.tsx";
+import Terminal from "@/components/Terminal.tsx";
 // @ts-ignore
-import APIDashboard from "./APIDashboard.tsx";
+import APIDashboard from "@/components/APIDashboard.tsx";
 // @ts-ignore
-import Module, {createModule, getModules} from "./Module.tsx";
+import Module, {createModule, getModules} from "@/components/Module.tsx";
 // @ts-ignore
-import NewModuleDialog from "./NewModuleDialog.tsx";
+import NewModuleDialog from "@/components/NewModuleDialog.tsx";
 
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -84,7 +84,7 @@ export default function App() {
                 </Box>
             </Box>
 
-            <NewModuleDialog open={newModuleDialogOpen} setOpen={setNewModuleDialogOpen} onClose={(id) => {setNewModuleDialogOpen(false); createModule(id)}} />
+            <NewModuleDialog open={newModuleDialogOpen} setOpen={setNewModuleDialogOpen} submitCallback={(id) => {setNewModuleDialogOpen(false); createModule(id)}} />
         </>
     );
 }
