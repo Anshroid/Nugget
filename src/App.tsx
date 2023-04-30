@@ -9,7 +9,9 @@ import Terminal from "./Terminal.tsx";
 // @ts-ignore
 import APIDashboard from "./APIDashboard.tsx";
 // @ts-ignore
-import Module, {getModules} from "./Module.tsx";
+import Module, {createModule, getModules} from "./Module.tsx";
+// @ts-ignore
+import NewModuleDialog from "./NewModuleDialog.tsx";
 
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -42,24 +44,25 @@ const AppBar = styled(MuiAppBar, {shouldForwardProp: (prop) => prop !== 'open',}
 );
 
 export default function App() {
-    const [open, setOpen] = React.useState(false);
+    const [drawerOpen, setDrawerOpen] = React.useState(false);
+    const [newModuleDialogOpen, setNewModuleDialogOpen] = React.useState(false);
     const [selectedIndex, setSelectedIndex] = React.useState(0);
 
     return (
         <>
             <Box sx={{display: 'flex'}}>
-                <AppBar position="fixed" open={open}>
+                <AppBar position="fixed" open={drawerOpen}>
                     <Toolbar>
                         <IconButton
                             color="inherit"
                             aria-label="open drawer"
                             onClick={() => {
-                                setOpen(true)
+                                setDrawerOpen(true)
                             }}
                             edge="start"
                             sx={{
                                 marginRight: 5,
-                                ...(open && {display: 'none'}),
+                                ...(drawerOpen && {display: 'none'}),
                             }}
                         >
                             <MenuIcon/>
@@ -70,16 +73,18 @@ export default function App() {
                     </Toolbar>
                 </AppBar>
 
-                <MiniDrawer open={open} setOpen={setOpen}
+                <MiniDrawer open={drawerOpen} setOpen={setDrawerOpen}
                             selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex}
-                            modules={getModules()}
+                            modules={getModules()} newModuleCallback={() => setNewModuleDialogOpen(true)}
                 />
 
                 <Box component="main" sx={{flexGrow: 1, p: 3}}>
                     <DrawerHeader />
-                    {[<Dashboard/>, <Terminal/>, <APIDashboard/>].concat()[selectedIndex]}
+                    {[<Dashboard/>, <Terminal/>, <APIDashboard/>].concat(getModules().map(id => <Module id={id} />))[selectedIndex]}
                 </Box>
             </Box>
+
+            <NewModuleDialog open={newModuleDialogOpen} setOpen={setNewModuleDialogOpen} onClose={(id) => {setNewModuleDialogOpen(false); createModule(id)}} />
         </>
     );
 }

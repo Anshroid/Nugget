@@ -69,7 +69,7 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
     }),
 );
 
-export default function MiniDrawer({open, setOpen, selectedIndex, setSelectedIndex, modules}) {
+export default function MiniDrawer({open, setOpen, selectedIndex, setSelectedIndex, modules, newModuleCallback}) {
     const theme = useTheme();
 
     return (
@@ -140,7 +140,7 @@ export default function MiniDrawer({open, setOpen, selectedIndex, setSelectedInd
                 ))}
 
                 <ListItem key="New" disablePadding sx={{display: 'block'}}>
-                        <ListItemButton onClick={() => {}}
+                        <ListItemButton onClick={newModuleCallback}
                                         sx={{
                                             minHeight: 48,
                                             justifyContent: open ? 'initial' : 'center',
@@ -156,7 +156,7 @@ export default function MiniDrawer({open, setOpen, selectedIndex, setSelectedInd
                             >
                                 {<Add/>}
                             </ListItemIcon>
-                            <ListItemText primary="New Module" sx={{opacity: open ? 1 : 0}}/>
+                            <ListItemText primary="New Module..." sx={{opacity: open ? 1 : 0}}/>
                         </ListItemButton>
                     </ListItem>
             </List>
