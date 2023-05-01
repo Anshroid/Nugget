@@ -15,6 +15,8 @@ import TerminalIcon from '@mui/icons-material/Terminal';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import AbcIcon from '@mui/icons-material/Abc';
 import {Add} from "@mui/icons-material";
+import {Skeleton} from "@mui/material";
+import Link from "next/link";
 
 export const drawerWidth = 240;
 
@@ -74,11 +76,20 @@ interface MiniDrawerProps {
     setOpen: (open: boolean) => void;
     selectedIndex: number;
     setSelectedIndex: (index: number) => void;
+    loadingModules: boolean;
     modules: string[];
     newModuleCallback: () => void;
 }
 
-export default function MiniDrawer({open, setOpen, selectedIndex, setSelectedIndex, modules, newModuleCallback}: MiniDrawerProps) {
+export default function MiniDrawer({
+                                       open,
+                                       setOpen,
+                                       selectedIndex,
+                                       setSelectedIndex,
+                                       loadingModules,
+                                       modules,
+                                       newModuleCallback
+                                   }: MiniDrawerProps) {
     const theme = useTheme();
 
     return (
@@ -96,24 +107,27 @@ export default function MiniDrawer({open, setOpen, selectedIndex, setSelectedInd
             <List>
                 {['Dashboard', 'Terminal', 'Nugget API'].map((text, index) => (
                     <ListItem key={text} disablePadding sx={{display: 'block'}}>
-                        <ListItemButton selected={index === selectedIndex} onClick={() => setSelectedIndex(index)}
-                                        sx={{
-                                            minHeight: 48,
-                                            justifyContent: open ? 'initial' : 'center',
-                                            px: 2.5,
-                                        }}
-                        >
-                            <ListItemIcon
-                                sx={{
-                                    minWidth: 0,
-                                    mr: open ? 3 : 'auto',
-                                    justifyContent: 'center',
-                                }}
+                        <Link href={`/${["dashboard", "terminal", "apidashboard"][index]}`}>
+                            <ListItemButton selected={index === selectedIndex} onClick={() => setSelectedIndex(index)}
+                                            sx={{
+                                                minHeight: 48,
+                                                justifyContent: open ? 'initial' : 'center',
+                                                px: 2.5,
+                                            }}
                             >
-                                {[<MonitorIcon/>, <TerminalIcon/>, <SettingsApplicationsIcon/>][index]}
-                            </ListItemIcon>
-                            <ListItemText primary={text} sx={{opacity: open ? 1 : 0}}/>
-                        </ListItemButton>
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}
+                                >
+                                    {[<MonitorIcon key="dashboard"/>, <TerminalIcon key="terminal"/>,
+                                        <SettingsApplicationsIcon key="apidashboard"/>][index]}
+                                </ListItemIcon>
+                                <ListItemText primary={text} sx={{opacity: open ? 1 : 0}}/>
+                            </ListItemButton>
+                        </Link>
                     </ListItem>
                 ))}
             </List>
@@ -121,49 +135,53 @@ export default function MiniDrawer({open, setOpen, selectedIndex, setSelectedInd
             <Divider/>
 
             <List>
-                {modules.map((text, index) => (
-                    <ListItem key={text} disablePadding sx={{display: 'block'}}>
-                        <ListItemButton selected={index === selectedIndex - 3} onClick={() => setSelectedIndex(index + 3)}
+                {loadingModules ?
+                    [1, 2, 3].map(i => (<Skeleton variant="circular" width={48} height={48} sx={{ml: "8px", mb: 1}}
+                                                  key={i}></Skeleton>))
+                    :
+                    modules.map((text, index) => (
+                        <ListItem key={text} disablePadding sx={{display: 'block'}}>
+                            <Link href={`/module?id=${text}`}>
+                                <ListItemButton selected={index === selectedIndex - 3}
+                                                onClick={() => setSelectedIndex(index + 3)}
+                                                sx={{
+                                                    minHeight: 48,
+                                                    justifyContent: open ? 'initial' : 'center',
+                                                    px: 2.5,
+                                                }}
+                                >
+                                    <ListItemIcon
                                         sx={{
-                                            minHeight: 48,
-                                            justifyContent: open ? 'initial' : 'center',
-                                            px: 2.5,
+                                            minWidth: 0,
+                                            mr: open ? 3 : 'auto',
+                                            justifyContent: 'center',
                                         }}
-                        >
-                            <ListItemIcon
-                                sx={{
-                                    minWidth: 0,
-                                    mr: open ? 3 : 'auto',
-                                    justifyContent: 'center',
-                                }}
-                            >
-                                {<AbcIcon/>}
-                            </ListItemIcon>
-                            <ListItemText primary={text} sx={{opacity: open ? 1 : 0}}/>
-                        </ListItemButton>
-                    </ListItem>
-                ))}
+                                    >
+                                        {<AbcIcon/>}
+                                    </ListItemIcon>
+                                    <ListItemText primary={text} sx={{opacity: open ? 1 : 0}}/>
+                                </ListItemButton>
+                            </Link>
+                        </ListItem>
+                    ))
+                }
 
                 <ListItem key="New" disablePadding sx={{display: 'block'}}>
-                        <ListItemButton sx={{
-                                            minHeight: 48,
-                                            justifyContent: open ? 'initial' : 'center',
-                                            px: 2.5,
-                                        }}
-                                        onClick={newModuleCallback}
-                        >
-                            <ListItemIcon
-                                sx={{
-                                    minWidth: 0,
-                                    mr: open ? 3 : 'auto',
-                                    justifyContent: 'center',
-                                }}
-                            >
-                                {<Add/>}
-                            </ListItemIcon>
-                            <ListItemText primary="New Module..." sx={{opacity: open ? 1 : 0}}/>
-                        </ListItemButton>
-                    </ListItem>
+                    <ListItemButton onClick={newModuleCallback} sx={{
+                        minHeight: 48,
+                        justifyContent: open ? 'initial' : 'center',
+                        px: 2.5,
+                    }}>
+                        <ListItemIcon sx={{
+                            minWidth: 0,
+                            mr: open ? 3 : 'auto',
+                            justifyContent: 'center',
+                        }}>
+                            {<Add/>}
+                        </ListItemIcon>
+                        <ListItemText primary="New Module..." sx={{opacity: open ? 1 : 0}}/>
+                    </ListItemButton>
+                </ListItem>
             </List>
         </Drawer>
     )

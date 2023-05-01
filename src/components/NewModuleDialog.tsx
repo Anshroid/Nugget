@@ -44,7 +44,7 @@ export default function NewModuleDialog({open, setOpen, submitCallback}: {open: 
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => {setOpen(false)}}>Cancel</Button>
-                <Button onClick={() => {submitCallback(idProps.value)}}>Create</Button>
+                <Button onClick={() => {submitCallback(idProps.value)}} disabled={idProps.value === "" || idProps.value.includes("/")}>Create</Button>
             </DialogActions>
         </Dialog>
     );

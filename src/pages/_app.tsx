@@ -1,4 +1,3 @@
-import '@/styles/globals.css'
 import AppBar from "@/components/AppBar";
 import MiniDrawer, {DrawerHeader} from "@/components/MiniDrawer";
 import NewModuleDialog from "@/components/NewModuleDialog";
@@ -15,12 +14,23 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
 
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 export default function App({Component, pageProps}: AppProps) {
-    const [drawerOpen, setDrawerOpen] = React.useState(false);
-    const [newModuleDialogOpen, setNewModuleDialogOpen] = React.useState(false);
-    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [newModuleDialogOpen, setNewModuleDialogOpen] = useState(false);
+    const [selectedIndex, setSelectedIndex] = useState(0);
+
+    const [modules, setModules] = useState([]);
+    const [loadingModules, setLoadingModules] = useState(false);
+
+    useEffect(() => {
+        setLoadingModules(true);
+        getModules().then((modules) => {
+            setModules(modules);
+            setLoadingModules(false);
+        });
+    }, []);
 
     return (
         <>
@@ -51,7 +61,8 @@ export default function App({Component, pageProps}: AppProps) {
 
                     <MiniDrawer open={drawerOpen} setOpen={setDrawerOpen}
                                 selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex}
-                                modules={getModules()} newModuleCallback={() => setNewModuleDialogOpen(true)}
+                                loadingModules={loadingModules} modules={modules}
+                                newModuleCallback={() => setNewModuleDialogOpen(true)}
                     />
 
                     <Box component="main" sx={{flexGrow: 1, p: 3}}>
@@ -59,12 +70,16 @@ export default function App({Component, pageProps}: AppProps) {
                         <Component {...pageProps} />
                     </Box>
                 </Box>
-            </ThemeProvider>
 
-            <NewModuleDialog open={newModuleDialogOpen} setOpen={setNewModuleDialogOpen} submitCallback={(id) => {
-                setNewModuleDialogOpen(false);
-                createModule(id);
-            }}/>
+                <NewModuleDialog open={newModuleDialogOpen} setOpen={setNewModuleDialogOpen} submitCallback={(id) => {
+                    setNewModuleDialogOpen(false);
+                    createModule(id).then(() => {
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1000);
+                    });
+                }}/>
+            </ThemeProvider>
         </>
     )
 }
