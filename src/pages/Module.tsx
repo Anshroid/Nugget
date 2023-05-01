@@ -1,16 +1,5 @@
 import Typography from "@mui/material/Typography";
-
-export function getModules() {
-    return [
-        "Placeholder 1",
-        "Placeholder 2",
-        "Placeholder 3"
-    ];
-}
-
-export function createModule(id: string) {
-    return;
-}
+import {getModules} from "@/api";
 
 export default function Module({id}: {id: string}) {
     if (!getModules().includes(id)) {
