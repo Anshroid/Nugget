@@ -17,6 +17,8 @@ import {Add} from "@mui/icons-material";
 import {Icon, Skeleton} from "@mui/material";
 import Link from "next/link";
 import {ModuleInfo} from "@/pages/module";
+import {useEffect, useState} from "react";
+import {getModules} from "@/api";
 
 export const drawerWidth = 240;
 
@@ -76,8 +78,9 @@ interface MiniDrawerProps {
     setOpen: (open: boolean) => void;
     selectedIndex: number;
     setSelectedIndex: (index: number) => void;
-    loadingModules: boolean;
+    triggerReload: boolean;
     modules: ModuleInfo[];
+    setModules: React.Dispatch<React.SetStateAction<ModuleInfo[]>>
     newModuleCallback: () => void;
 }
 
@@ -86,11 +89,22 @@ export default function MiniDrawer({
                                        setOpen,
                                        selectedIndex,
                                        setSelectedIndex,
-                                       loadingModules,
+                                       triggerReload,
                                        modules,
+                                       setModules,
                                        newModuleCallback
                                    }: MiniDrawerProps) {
     const theme = useTheme();
+
+    const [loadingModules, setLoadingModules] = useState(false);
+
+    useEffect(() => {
+        setLoadingModules(true);
+        getModules().then((modules) => {
+            setModules(modules);
+            setLoadingModules(false);
+        });
+    }, [setModules, triggerReload]);
 
     return (
         <Drawer variant="permanent" open={open}>

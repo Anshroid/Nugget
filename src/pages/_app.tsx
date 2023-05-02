@@ -3,7 +3,7 @@ import MiniDrawer, {DrawerHeader} from "@/components/MiniDrawer";
 import NewModuleDialog from "@/components/NewModuleDialog";
 import theme from "@/components/theme";
 
-import {createModule, getModules} from "@/api";
+import {createModule} from "@/api";
 
 import type {AppProps} from 'next/app'
 
@@ -14,7 +14,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
 
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 
 export default function App({Component, pageProps}: AppProps) {
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -22,17 +22,8 @@ export default function App({Component, pageProps}: AppProps) {
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const [modules, setModules] = useState([{id: "", icon: ""}]);
-    const [loadingModules, setLoadingModules] = useState(false);
     const [reloadModules, setReloadModules] = useState(false);
     const triggerReloadModules = () => setReloadModules(!reloadModules);
-
-    useEffect(() => {
-        setLoadingModules(true);
-        getModules().then((modules) => {
-            setModules(modules);
-            setLoadingModules(false);
-        });
-    }, [reloadModules]);
 
     return (
         <>
@@ -63,7 +54,7 @@ export default function App({Component, pageProps}: AppProps) {
 
                     <MiniDrawer open={drawerOpen} setOpen={setDrawerOpen}
                                 selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex}
-                                loadingModules={loadingModules} modules={modules}
+                                triggerReload={reloadModules} modules={modules} setModules={setModules}
                                 newModuleCallback={() => setNewModuleDialogOpen(true)}
                     />
 
