@@ -1,10 +1,12 @@
+import {Data as GetModulesData} from "@/pages/api/getModules";
+
 export async function getModules() {
     const res = await fetch("http://localhost:3000/api/getModules")
     if (!res.ok) {
         throw new Error(res.statusText)
     }
 
-    const data = await res.json()
+    const data: GetModulesData = await res.json()
 
     return data.modules;
 }

@@ -13,10 +13,10 @@ import ListItemText from '@mui/material/ListItemText';
 import MonitorIcon from '@mui/icons-material/Monitor';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
-import AbcIcon from '@mui/icons-material/Abc';
 import {Add} from "@mui/icons-material";
-import {Skeleton} from "@mui/material";
+import {Icon, Skeleton} from "@mui/material";
 import Link from "next/link";
+import {ModuleInfo} from "@/pages/module";
 
 export const drawerWidth = 240;
 
@@ -77,7 +77,7 @@ interface MiniDrawerProps {
     selectedIndex: number;
     setSelectedIndex: (index: number) => void;
     loadingModules: boolean;
-    modules: string[];
+    modules: ModuleInfo[];
     newModuleCallback: () => void;
 }
 
@@ -139,9 +139,9 @@ export default function MiniDrawer({
                     [1, 2, 3].map(i => (<Skeleton variant="circular" width={48} height={48} sx={{ml: "8px", mb: 1}}
                                                   key={i}></Skeleton>))
                     :
-                    modules.map((text, index) => (
-                        <ListItem key={text} disablePadding sx={{display: 'block'}}>
-                            <Link href={`/module?id=${text}`}>
+                    modules.map((module, index) => (
+                        <ListItem key={module.id} disablePadding sx={{display: 'block'}}>
+                            <Link href={`/module?id=${module.id}`}>
                                 <ListItemButton selected={index === selectedIndex - 3}
                                                 onClick={() => setSelectedIndex(index + 3)}
                                                 sx={{
@@ -157,9 +157,9 @@ export default function MiniDrawer({
                                             justifyContent: 'center',
                                         }}
                                     >
-                                        {<AbcIcon/>}
+                                        <Icon>{module.icon}</Icon>
                                     </ListItemIcon>
-                                    <ListItemText primary={text} sx={{opacity: open ? 1 : 0}}/>
+                                    <ListItemText primary={module.id} sx={{opacity: open ? 1 : 0}}/>
                                 </ListItemButton>
                             </Link>
                         </ListItem>

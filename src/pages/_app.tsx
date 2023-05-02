@@ -21,8 +21,10 @@ export default function App({Component, pageProps}: AppProps) {
     const [newModuleDialogOpen, setNewModuleDialogOpen] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
 
-    const [modules, setModules] = useState([]);
+    const [modules, setModules] = useState([{id: "", icon: ""}]);
     const [loadingModules, setLoadingModules] = useState(false);
+    const [reloadModules, setReloadModules] = useState(false);
+    const triggerReloadModules = () => setReloadModules(!reloadModules);
 
     useEffect(() => {
         setLoadingModules(true);
@@ -30,7 +32,7 @@ export default function App({Component, pageProps}: AppProps) {
             setModules(modules);
             setLoadingModules(false);
         });
-    }, []);
+    }, [reloadModules]);
 
     return (
         <>
@@ -74,9 +76,7 @@ export default function App({Component, pageProps}: AppProps) {
                 <NewModuleDialog open={newModuleDialogOpen} setOpen={setNewModuleDialogOpen} submitCallback={(id) => {
                     setNewModuleDialogOpen(false);
                     createModule(id).then(() => {
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 1000);
+                        triggerReloadModules();
                     });
                 }}/>
             </ThemeProvider>
