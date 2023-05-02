@@ -1,19 +1,22 @@
 import Head from "next/head";
-import {Box, Card, LinearProgress, Stack, Unstable_Grid2 as Grid} from "@mui/material";
+import {Card, CircularProgress, Unstable_Grid2 as Grid} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import LinearProgressWithLabel from "@/components/LinearProgressWithLabel";
+import CircularProgressWithLabel from "@/components/CircularProgressWithLabel";
 import {getResources} from "@/api";
 
 export default function Dashboard({}) {
     const [cpu, setCpu] = React.useState(0);
     const [memory, setMemory] = React.useState(0);
+    const [temp, setTemp] = React.useState(0);
 
     React.useEffect(() => {
         const interval = setInterval(() => {
             getResources().then((res) => {
                 setCpu(res.cpu);
                 setMemory(res.memory);
+                setTemp(res.temp);
             });
         }, 1000);
         return () => clearInterval(interval);
@@ -31,6 +34,7 @@ export default function Dashboard({}) {
                         <LinearProgressWithLabel variant="determinate" color="secondary" label="CPU" value={cpu}
                                                  sx={{my: 1}}/>
                         <LinearProgressWithLabel variant="determinate" label="RAM" value={memory} sx={{my: 1}}/>
+                        <CircularProgressWithLabel variant="determinate" color="secondary" value={temp} sx={{my: 1}}/>
                     </Card>
                 </Grid>
                 <Grid xs={6}>

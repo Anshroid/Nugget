@@ -2528,6 +2528,7 @@ __metadata:
     next: 13.3.4
     react: 18.2.0
     react-dom: 18.2.0
+    systeminformation: ^5.17.12
     typescript: 5.0.4
   languageName: unknown
   linkType: soft
@@ -3175,6 +3176,16 @@ __metadata:
     "@pkgr/utils": ^2.3.1
     tslib: ^2.5.0
   checksum: 8a9560e5d8f3d94dc3cf5f7b9c83490ffa30d320093560a37b88f59483040771fd1750e76b9939abfbb1b5a23fd6dfbae77f6b338abffe7cae7329cd9b9bb86b
+  languageName: node
+  linkType: hard
+
+"systeminformation@npm:^5.17.12":
+  version: 5.17.12
+  resolution: "systeminformation@npm:5.17.12"
+  bin:
+    systeminformation: lib/cli.js
+  checksum: 0f005bb0a00eaa08ee2d04afc7fde688440e2fc85f09cf247b74dac0f5d08fdd24cad0c233733f1eb69721085efc5beb425afe814e5fa9f5d1aaa4cbe523e5cc
+  conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard
 
