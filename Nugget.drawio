@@ -54,7 +54,7 @@
         <mxCell id="yzkzSsEZG4ujyg7mexPv-26" value="&lt;div&gt;Cloud APIs&lt;/div&gt;&lt;div&gt;(Sheets etc.)&lt;/div&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
           <mxGeometry x="500" y="190" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="yzkzSsEZG4ujyg7mexPv-40" value="&lt;div&gt;Me&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+        <mxCell id="yzkzSsEZG4ujyg7mexPv-40" value="&lt;div&gt;User&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
           <mxGeometry x="455" y="680" width="30" height="60" as="geometry" />
         </mxCell>
         <mxCell id="yzkzSsEZG4ujyg7mexPv-48" value="" style="group;align=center;" vertex="1" connectable="0" parent="1">
